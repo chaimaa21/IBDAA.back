@@ -23,10 +23,10 @@ class Formateur extends Internaute {
     @OneToMany(mappedBy = "formateur",cascade= CascadeType.ALL)
     List<Session> sessions;
     
-    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_formation", referencedColumnName = "id_formation")
-    @JsonManagedReference
+ //  @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+   // @JoinColumn(name = "id_formation", referencedColumnName = "id_formation")
+ //   @JsonManagedReference
     
-    private Formation formation;
+   // private Formation formation;
 
 }

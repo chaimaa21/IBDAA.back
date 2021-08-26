@@ -49,6 +49,7 @@ public class FormateurController {
     
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> removeFormateur(@PathVariable("id") Long id){
+    	System.out.println("called");
         service.removeFormateur(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
