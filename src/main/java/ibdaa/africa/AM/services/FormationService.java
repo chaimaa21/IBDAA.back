@@ -9,6 +9,8 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ibdaa.africa.AM.exceptions.UserNotFoundException;
+import ibdaa.africa.AM.models.Formateur;
 import ibdaa.africa.AM.models.Formation;
 
 import ibdaa.africa.AM.repositories.FormationRepository;
@@ -27,8 +29,8 @@ public class FormationService {
         return repository.findAll();
     }
     
-    public void createFormation(Formation formation){
-        repository.save(formation);
+    public Formation addFormation(Formation formation){
+        return repository.save(formation);
     }
     public void removeFormation(Long id_formation){
         boolean exist = repository.existsById(id_formation);
@@ -39,32 +41,17 @@ public class FormationService {
     }
     
     @Transactional
-    public void updateFormation(Long formationId,String name,String obj,Integer duration,String desc,String status,Date d1,Date d2){
-        Formation formation= repository.findById(formationId)
-                .orElseThrow(()->new IllegalStateException("Formation does not exist"));
-
-        if(name != null && name.length()>0 && !Objects.equals(formation.getNom_formation(),name)){
-            formation.setNom_formation(name);
-        }
-        if(obj != null && obj.length()>0 && !Objects.equals(formation.getObjectifs(),obj)){
-            formation.setObjectifs(obj);
-        }
-        if(duration != null && duration>0 && !Objects.equals(formation.getDuree(),duration)){
-            formation.setDuree(duration);
-        }
-        if(desc != null && desc.length()>0 && !Objects.equals(formation.getPrerequis(),desc)){
-            formation.setPrerequis(desc);
-        }
-        if(status != null && status.length()>0 && !Objects.equals(formation.getPhase(),status)){
-            formation.setPhase(status);
-        }
-        if(d1 != null && !Objects.equals(formation.getDate_debut(),d1)){
-            formation.setDate_debut(d1);
-        }
-        if(d2 != null && !Objects.equals(formation.getDate_fin(),d2)){
-            formation.setDate_fin(d2);
-        }
-
+    public Formation updateFormation(Formation formation){
+    	Formation uform=repository.findById(formation.getId_formation()).orElseThrow(()-> new UserNotFoundException("client with id "+formation.getId_formation()+" not found"));
+    	System.out.print(uform);
+    	if(formation.getNom_formation()!=null && !formation.getNom_formation().isEmpty()) uform.setNom_formation(formation.getNom_formation());
+    	if(formation.getObjectifs()!=null && !formation.getObjectifs().isEmpty()) uform.setObjectifs(formation.getObjectifs());
+    	if(formation.getDuree()!=null && !(formation.getDuree()>0)) uform.setDuree(formation.getDuree());
+    	if(formation.getPrerequis()!=null && !formation.getPrerequis().isEmpty()) uform.setPrerequis(formation.getPrerequis());
+    	if(formation.getPhase()!=null && !formation.getPhase().isEmpty()) uform.setPhase(formation.getPhase());
+    	if(formation.getDate_debut()!=null ) uform.setDate_debut(formation.getDate_debut());
+    	if(formation.getDate_fin()!=null ) uform.setDate_fin(formation.getDate_fin());
+    	return repository.save(uform);
     }
-
+    
 }

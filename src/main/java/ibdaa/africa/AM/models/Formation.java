@@ -6,6 +6,8 @@ import lombok.Data;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.sql.Date;
 
 import java.util.List;
@@ -33,7 +35,5 @@ public class Formation {
     
     @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinColumn(name = "id_formateur", referencedColumnName = "id")
-    @JsonBackReference
-   
     private Formateur formateur;
 }

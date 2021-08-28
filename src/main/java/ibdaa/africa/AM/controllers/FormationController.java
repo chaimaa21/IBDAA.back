@@ -1,8 +1,11 @@
 package ibdaa.africa.AM.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import ibdaa.africa.AM.models.Formateur;
 import ibdaa.africa.AM.models.Formation;
 import ibdaa.africa.AM.services.FormationService;
 
@@ -19,30 +22,26 @@ public class FormationController {
         this.service = service;
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public List<Formation> getFormation(){
         return service.getFormation();
     }
-    @PostMapping
-    public void createFormation(@RequestBody Formation formation){
-        service.createFormation(formation);
-    }
-    @DeleteMapping(path = "{id_formation}")
-    public void removeFormation(@PathVariable("id_formation") Long id){
+    @PostMapping("/add")
+    public ResponseEntity<Formation> addFormation(@RequestBody  Formation formation){
+        Formation newFormation= service.addFormation(formation);
+        return new ResponseEntity<>(newFormation, HttpStatus.CREATED);
+     }
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> removeFormation(@PathVariable("id") Long id){
+    	System.out.println("called");
         service.removeFormation(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
-    @PutMapping(path = "{id_formation}")
-    public void updateFormation(
-            @PathVariable("id_formation") Long formationId,
-            @RequestParam(required = false) String name,
-            @RequestParam(required = false) String obj,
-            @RequestParam(required = false) Integer duration,
-            @RequestParam(required = false) String desc,
-            @RequestParam(required = false) String status,
-            @RequestParam(required = false) Date d1,
-            @RequestParam(required = false) Date d2
-    ){
-        service.updateFormation(formationId,name,obj,duration,desc,status,d1,d2);
+  
+    @PutMapping("/update")
+    public ResponseEntity<Formation> updateFormation(@RequestBody Formation formation) {
+        Formation updateFormation = service.updateFormation(formation);
+        return new ResponseEntity<>(updateFormation, HttpStatus.OK);
     }
 
 }
