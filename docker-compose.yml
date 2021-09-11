@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+ localhost: 
+  image: postgres
+  container_name: postgres
+  environment:
+   - POSTGRES_PASSWORD=ensias2023
+   - POSTGRES_USER=chaimaa
+   - POSTGRES_DB=ibdaa_learning
+ springboot-docker-container:
+  image: springboot-docker-container
+  container_name: springboot-docker-container
+  ports:
+   - 9090:9090
+  build:
+   context: ./
+   dockerfile: Dockerfile
+  depends_on: 
+   - localhost
