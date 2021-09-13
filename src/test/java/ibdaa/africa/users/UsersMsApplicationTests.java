@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import ibdaa.africa.users.entities.User;
+import ibdaa.africa.users.repositories.UserRepository;
 
 @SpringBootTest
 class UsersMsApplicationTests {
